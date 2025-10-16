@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 from pathlib import Path
 from typing import Optional
 
@@ -27,6 +28,7 @@ def widget() -> Container:
     status = Label(value="Load a sequence file or build a simple time-lapse.")
     file_edit = FileEdit(mode="r", label="Sequence (*.useq.json | *.useq.yaml | *.json | *.yaml)")
     load_button = PushButton(label="Load sequence")
+    mda_button = PushButton(label="Use current MDA panel")
     start_button = PushButton(label="Start time-lapse")
     stop_button = PushButton(label="Stop")
 
@@ -93,7 +95,78 @@ def widget() -> Container:
         except Exception as exc:
             QMessageBox.warning(None, "Time-lapse", f"Cannot cancel acquisition:\n{exc}")
 
+    def summarize_sequence(sequence: MDASequence) -> str:
+        channel_names = ", ".join(ch.config for ch in sequence.channels) if sequence.channels else "default channel"
+        positions = len(sequence.stage_positions)
+        tp = sequence.time_plan
+        if isinstance(tp, TIntervalLoops):
+            interval = tp.interval.total_seconds()
+            summary = f"{tp.loops} loops every {interval:.2f}s"
+        elif tp is None:
+            summary = "no time plan"
+        else:
+            summary = tp.__class__.__name__
+        return f"Active MDA -> positions: {positions}, channels: {channel_names}, time plan: {summary}"
+
+    def on_use_current_mda() -> None:
+        nonlocal seq, seq_path
+        try:
+            import napari
+            from napari_micromanager._gui_objects._mda_widget import MultiDWidget
+        except ImportError:
+            QMessageBox.information(
+                None,
+                "Time-lapse",
+                "napari-micromanager is not available. Load a sequence file instead.",
+            )
+            return
+
+        try:
+            viewer = napari.current_viewer()
+        except Exception:
+            viewer = None
+
+        if viewer is None:
+            QMessageBox.information(
+                None,
+                "Time-lapse",
+                "No napari viewer detected. Open napari-micromanager first.",
+            )
+            return
+
+        dock_widgets = getattr(viewer.window, "_wrapped_dock_widgets", {})
+        mda_widget: Optional[MultiDWidget] = None
+        for dock in dock_widgets.values():
+            inner = None
+            with contextlib.suppress(AttributeError):
+                inner = dock.inner_widget()
+            if isinstance(inner, MultiDWidget):
+                mda_widget = inner
+                break
+
+        if mda_widget is None:
+            QMessageBox.information(
+                None,
+                "Time-lapse",
+                "Cannot find the napari-micromanager MDA panel. Open it and try again.",
+            )
+            return
+
+        try:
+            seq = mda_widget.value().model_copy(deep=True)
+        except Exception as exc:
+            QMessageBox.critical(
+                None,
+                "Time-lapse",
+                f"Failed to read the MDA panel:\n{exc}",
+            )
+            return
+
+        seq_path = None
+        status.value = summarize_sequence(seq)
+
     load_button.changed.connect(on_load)
+    mda_button.changed.connect(on_use_current_mda)
     build_button.changed.connect(on_build)
     start_button.changed.connect(on_start)
     stop_button.changed.connect(on_stop)
@@ -101,7 +174,7 @@ def widget() -> Container:
     ui = Container(
         widgets=[
             status,
-            Container(widgets=[file_edit, load_button], layout="horizontal"),
+            Container(widgets=[file_edit, load_button, mda_button], layout="horizontal"),
             Container(widgets=[channel_combo, build_button], layout="horizontal"),
             Container(widgets=[start_button, stop_button], layout="horizontal"),
         ],
