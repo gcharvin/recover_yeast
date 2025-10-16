@@ -1,0 +1,15 @@
+name: napari-mmc-tools
+display_name: MMC Tools
+contributions:
+  commands:
+    - id: napari-mmc-tools.tl_launcher
+      title: Shared TL Launcher
+      python_name: napari_mmc_tools.tl_launcher:widget
+    - id: napari-mmc-tools.positions_editor
+      title: MDA Positions Editor
+      python_name: napari_mmc_tools.positions_editor:widget
+  widgets:
+    - command: napari-mmc-tools.tl_launcher
+      display_name: Shared TL Launcher
+    - command: napari-mmc-tools.positions_editor
+      display_name: MDA Positions Editor

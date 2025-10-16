@@ -1,0 +1,100 @@
+Metadata-Version: 2.4
+Name: pymmcore-widgets
+Version: 0.10.1
+Summary: A set of Qt-based widgets onto the pymmcore-plus model
+Project-URL: Homepage, https://github.com/pymmcore-plus/pymmcore-widgets
+Project-URL: Source Code, https://github.com/pymmcore-plus/pymmcore-widgets
+Project-URL: Documentation, https://pymmcore-plus.github.io/pymmcore-widgets
+Author-email: Federico Gasparoli <federico.gasparoli@gmail.com>, Talley Lambert <talley.lambert@gmail.com>, Ian Hunt-Isaak <ianhuntisaak@gmail.com>
+License: BSD 3-Clause License
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: X11 Applications :: Qt
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Topic :: Software Development :: Widget Sets
+Classifier: Topic :: System :: Hardware
+Classifier: Topic :: System :: Hardware :: Hardware Drivers
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Requires-Dist: pymmcore-plus[cli]>=0.14.0
+Requires-Dist: pyopengl>=3.1.9; platform_system == 'Darwin'
+Requires-Dist: qtpy>=2.0
+Requires-Dist: shapely>=2.0.7
+Requires-Dist: superqt[cmap,iconify,quantity]>=0.7.1
+Requires-Dist: useq-schema>=0.7.3
+Requires-Dist: vispy>=0.15.0
+Provides-Extra: pyqt5
+Requires-Dist: pyqt5>=5.15.11; extra == 'pyqt5'
+Provides-Extra: pyqt6
+Requires-Dist: pyqt6>=6.4.2; extra == 'pyqt6'
+Provides-Extra: pyside2
+Requires-Dist: numpy; extra == 'pyside2'
+Requires-Dist: numpy<2; (python_version < '3.13') and extra == 'pyside2'
+Requires-Dist: pyside2>=5.15.2.1; extra == 'pyside2'
+Provides-Extra: pyside6
+Requires-Dist: pyside6>=6.9.0; extra == 'pyside6'
+Description-Content-Type: text/markdown
+
+# pymmcore-widgets
+
+[![License](https://img.shields.io/pypi/l/pymmcore-widgets.svg?color=green)](https://github.com/pymmcore-plus/pymmcore-widgets/raw/main/LICENSE)
+[![Python Version](https://img.shields.io/pypi/pyversions/pymmcore-widgets.svg?color=green)](https://python.org)
+[![PyPI](https://img.shields.io/pypi/v/pymmcore-widgets.svg?color=green)](https://pypi.org/project/pymmcore-widgets)
+[![Conda](https://img.shields.io/conda/vn/conda-forge/pymmcore-widgets)](https://anaconda.org/conda-forge/pymmcore-widgets)
+[![CI](https://github.com/pymmcore-plus/pymmcore-widgets/actions/workflows/ci.yml/badge.svg)](https://github.com/pymmcore-plus/pymmcore-widgets/actions/workflows/ci.yml)
+[![docs](https://github.com/pymmcore-plus/pymmcore-plus/actions/workflows/docs.yml/badge.svg)](https://pymmcore-plus.github.io/pymmcore-widgets/)
+[![codecov](https://codecov.io/gh/pymmcore-plus/pymmcore-widgets/branch/main/graph/badge.svg)](https://codecov.io/gh/pymmcore-plus/pymmcore-widgets)
+
+A set of widgets for the [pymmcore-plus](https://github.com/pymmcore-plus/pymmcore-plus) package.
+This package can be used to build custom user interfaces for micromanager in a python/Qt environment.
+It forms the basis of [`napari-micromanager`](https://github.com/pymmcore-plus/napari-micromanager)
+
+### [:book: Documentation](https://pymmcore-plus.github.io/pymmcore-widgets)
+
+<img width="1721" alt="mm_widgets" src="https://github.com/pymmcore-plus/pymmcore-widgets/assets/1609449/20747052-8621-4c6d-a9ab-473792b411ac">
+
+See complete list of available widgets in the [documentation](https://pymmcore-plus.github.io/pymmcore-widgets/#widgets)
+
+## Installation
+
+```sh
+pip install pymmcore-widgets
+
+# note that this package does NOT include a Qt backend
+# you must install one yourself, for example:
+pip install PyQt5
+
+# package is tested against PyQt5, PyQt6, PySide2, and PySide6(==6.7)
+```
+
+## Development
+
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
+
+```sh
+git clone <your-fork>
+cd pymmcore-widgets
+uv sync
+```
+
+### Testing
+
+```sh
+uv run pytest
+```
+
+### Docs
+
+```sh
+uv run --group docs mkdocs serve
+```

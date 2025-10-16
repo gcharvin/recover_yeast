@@ -1,0 +1,5 @@
+napari>=0.4.19
+magicgui>=0.7
+pymmcore-plus>=0.11
+useq-schema>=0.5
+PyYAML>=6

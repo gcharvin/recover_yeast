@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: napari-mmc-tools
+Version: 0.1.0
+Summary: Custom tools for napari-micromanager: shared TL launcher and MDA positions editor
+Author-email: Your Name <you@example.com>
+Project-URL: Homepage, https://example.com/napari-mmc-tools
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: napari>=0.4.19
+Requires-Dist: magicgui>=0.7
+Requires-Dist: pymmcore-plus>=0.11
+Requires-Dist: useq-schema>=0.5
+Requires-Dist: PyYAML>=6
+
+# napari-mmc-tools
+
+Small collection of utility widgets that integrate with napari-micromanager:
+
+- **Shared TL Launcher** – start or stop a time-lapse from a saved `useq` sequence or from a single channel preset.
+- **MDA Positions Editor** – inspect, edit, and save the `stage_positions` of a `useq` multi-dimensional acquisition file.
+
+Both widgets rely on the `CMMCorePlus` singleton exposed by `pymmcore-plus`, so they are meant to run inside the same Python process as napari.
+
