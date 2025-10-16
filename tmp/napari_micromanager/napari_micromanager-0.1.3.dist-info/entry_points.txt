@@ -1,5 +1,0 @@
-[console_scripts]
-napari-micromanager = napari_micromanager.__main__:main
-
-[napari.manifest]
-napari-micromanager = napari_micromanager:napari.yaml

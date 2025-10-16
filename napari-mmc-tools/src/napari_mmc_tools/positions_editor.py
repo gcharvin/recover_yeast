@@ -60,7 +60,7 @@ def widget() -> Container:
     save_as_btn = PushButton(label="Save As…")
     status = Label(value="Load a sequence to start.")
 
-    table = Table(value=[], headers=["Name", "X", "Y", "Z"], label="Positions (double-click to edit)")
+    table = Table(value=[], columns=["Name", "X", "Y", "Z"], label="Positions (double-click to edit)")
 
     seq: Optional[MDASequence] = None
     seq_path: Optional[Path] = None
